@@ -8,9 +8,26 @@ const getUser = ((req, res) => {
     res.send('Get user route');
 });
 
-const createUser = ((req, res) => {
-    res.status(200);
-    res.send('Create user route');
+const createUser = (async (req, res) => {
+    const rowsAffected = await userdb.CreateUser(
+        req.body.email, 
+        req.body.password, 
+        req.body.firstName, 
+        req.body.lastName, 
+        req.body.birthDate
+    );
+
+    if (rowsAffected === 1) {
+        res.status(200);
+        res.json({
+            'status': 'success'
+        });
+    } else {
+        res.status(500);
+        res.json({
+            'status': 'error'
+        });
+    }
 });
 
 const updateUser = ((req, res) => {
