@@ -1,0 +1,5 @@
+::ffff:127.0.0.1 - - [28/Apr/2022:16:37:34 +0000] "GET / HTTP/1.1" 200 5 "-" "PostmanRuntime/7.29.0"
+::ffff:127.0.0.1 - - [28/Apr/2022:16:46:40 +0000] "GET /api/user HTTP/1.1" 404 147 "-" "PostmanRuntime/7.29.0"
+::ffff:127.0.0.1 - - [28/Apr/2022:16:46:55 +0000] "GET /api/user/2 HTTP/1.1" 200 14 "-" "PostmanRuntime/7.29.0"
+::ffff:127.0.0.1 - - [28/Apr/2022:16:47:31 +0000] "POST /api/user HTTP/1.1" 200 17 "-" "PostmanRuntime/7.29.0"
+::ffff:127.0.0.1 - - [28/Apr/2022:16:47:53 +0000] "PUT /api/user HTTP/1.1" 200 17 "-" "PostmanRuntime/7.29.0"
