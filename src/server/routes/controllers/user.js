@@ -1,5 +1,10 @@
+const userdb = require('../../db/userdb.js');
+
 const getUser = ((req, res) => {
     res.status(200);
+
+    userdb.GetUserProfile(req.query.id);
+
     res.send('Get user route');
 });
 
@@ -17,4 +22,4 @@ module.exports = {
     getUser,
     createUser,
     updateUser
-}
+};

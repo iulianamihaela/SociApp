@@ -5,9 +5,9 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 
-const userRoutes = require('./routes/user.js');
-
 require('dotenv').config();
+
+const userRoutes = require('./routes/user.js');
 
 const app = express();
 
@@ -21,8 +21,8 @@ app.use(cors());
 var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
 app.use(morgan('combined', { stream: accessLogStream }));
 
-app.get('/', (req, res) => {
-    res.send('Hello');
+app.get('/', async (req, res) => {
+    res.send('SociApp server...');
 });
 
 app.use('/api/user', userRoutes);
