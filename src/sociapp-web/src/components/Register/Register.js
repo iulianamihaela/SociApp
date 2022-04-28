@@ -83,7 +83,7 @@ function Register() {
         const ageDate = new Date(ageDifMs); 
         const years = Math.abs(ageDate.getUTCFullYear() - 1970)
 
-        setIsValidBirthDate(years >= 16);
+        setIsValidBirthDate(years >= 16 && value <= Date.now());
 
         updateAccountValidity();
     }
@@ -110,8 +110,8 @@ function Register() {
     }
 
     return (
-        <div class="md:flex md:justify-center md:mb-6 md:mt-20 sm:flex sm:ml-1 sm:mr-1">
-            <form className="w-full max-w-lg items-center sm:p-2 md:p-10 md:pb-4 md:bg-gray-100 border-2 rounded-lg">
+        <div className="flex justify-center md:mb-6 md:mt-20">
+            <form className="w-full max-w-lg items-center md:p-10 md:pb-4 md:bg-gray-100 md:border-2 md:rounded-lg">
                 <div className="flex flex-wrap -mx-3 mb-6">
                     <div className="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                         <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2" htmlFor="grid-first-name">First Name</label>
@@ -216,7 +216,7 @@ function Register() {
                 }
 
                 <div className="flex flex-wrap mb-4 mt-10 text-center justify-center">
-                    <button onClick={createUser} disabled={!isValidAccount} class="bg-transparent disabled:hover:cursor-not-allowed hover:bg-blue-500 text-blue-700 font-semibold hover:text-white disabled:hover:bg-gray-100 disabled:hover:text-blue-700 disabled:hover:border-blue-500 py-2 px-4 border border-blue-500 hover:border-transparent rounded">
+                    <button onClick={createUser} disabled={!isValidAccount} className="bg-transparent disabled:hover:cursor-not-allowed hover:bg-blue-500 text-blue-700 font-semibold hover:text-white disabled:hover:bg-gray-100 disabled:hover:text-blue-700 disabled:hover:border-blue-500 py-2 px-4 border border-blue-500 hover:border-transparent rounded">
                         Register
                     </button>
                 </div>

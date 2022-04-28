@@ -2,15 +2,10 @@ import React, { useState } from "react";
 import "./NavBar.css";
 import { Transition } from "@headlessui/react";
 
-import { FaRegUserCircle } from "react-icons/fa";
 import { Link } from "react-router-dom";
 
 function NavBar() {
     const [isDropdownOpen, toggleDropdown] = useState(false);
-
-    const toggleDropdownUser = () => {
-        toggleDropdown(!isDropdownOpen);
-    };
 
     return (
         <nav className="bg-gray-800">
@@ -18,11 +13,7 @@ function NavBar() {
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
                         <div className="flex-shrink-0">
-                            <img
-                                className="h-8 w-8"
-                                src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                                alt="Workflow"
-                            />
+                            <span className="text-2xl text-white">SociApp</span>
                         </div>
                         <div className="hidden md:block">
                             <div className="ml-10 flex items-baseline space-x-4">

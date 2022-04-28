@@ -1,4 +1,5 @@
 const userdb = require('../../db/userdb.js');
+const bcrypt = require('bcrypt');
 
 const getUser = ((req, res) => {
     res.status(200);
@@ -9,9 +10,15 @@ const getUser = ((req, res) => {
 });
 
 const createUser = (async (req, res) => {
+    if (req.body.password != null && req.body.password.length < 8) {
+        return;
+    }
+
+    const password = await bcrypt.hash(req.body.password, parseInt(process.env));
+
     const rowsAffected = await userdb.CreateUser(
         req.body.email, 
-        req.body.password, 
+        password, 
         req.body.firstName, 
         req.body.lastName, 
         req.body.birthDate
