@@ -23,6 +23,7 @@
     "history": "^5.3.0",
     "install": "^0.13.0",
     "npm": "^8.8.0",
+    "query-string": "^7.1.1",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
     "react-icons": "^4.3.1",
@@ -32,6 +33,7 @@
     "react-router-dom": "^6.3.0",
     "react-router-redux": "^4.0.8",
     "react-scripts": "5.0.1",
+    "socket.io-client": "^4.5.1",
     "styled-components": "^5.3.5",
     "tw-elements": "^1.0.0-alpha12",
     "web-vitals": "^2.1.4"

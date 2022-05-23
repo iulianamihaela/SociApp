@@ -13,6 +13,7 @@ import UserProfile from './pages/UserProfile/UserProfile';
 import Home from './pages/Home/Home';
 import Users from './pages/Users/Users';
 import Post from './pages/Post/Post';
+import Chat from './pages/Chat/Chat';
 
 import 'tw-elements';
 import NewPost from './pages/NewPost/NewPost';
@@ -35,6 +36,7 @@ root.render(
           <Route path="userprofile/:userEmail" element={<UserProfile />} />
           <Route path="friendrequests" element={<FriendRequests />} />
           <Route path="post/:id" element={<Post />} />
+          <Route path="chat" element={<Chat />} />
         </Route>
       </Routes>
     </BrowserRouter>

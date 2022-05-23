@@ -57,7 +57,8 @@ const authenticateUser = (async (req, res) => {
             "status": "success",
             "jwt": token,
             "role": user.Role,
-            "email": email
+            "email": email,
+            "fullName": user.FullName
         });
     } else {
         res.status(404);

@@ -21,6 +21,7 @@ function Login() {
             localStorage.setItem('token', res.data.jwt);
             localStorage.setItem('role', res.data.role);
             localStorage.setItem('email', res.data.email);
+            localStorage.setItem('fullName', res.data.fullName);
             navigate('/');
         }).catch(res => {
             if (res.response.status === 404) {

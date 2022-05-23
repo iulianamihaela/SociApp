@@ -46,6 +46,11 @@ function NavBar() {
                                                 location="friendrequests"
                                                 text="Friend requests"
                                             />
+                                            <NavBarButton
+                                                isSmallScreen={false}
+                                                location="chat"
+                                                text="Chat"
+                                            />
                                         </>
                                     )}
 
@@ -224,6 +229,11 @@ function NavBar() {
                                         isSmallScreen={true}
                                         location="friendrequests"
                                         text="Friend requests"
+                                    />
+                                    <NavBarButton
+                                        isSmallScreen={true}
+                                        location="chat"
+                                        text="Chat"
                                     />
                                 </>
                             )}
