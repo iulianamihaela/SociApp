@@ -1,14 +1,20 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./NavBar.css";
 import { Transition } from "@headlessui/react";
 
-import { Link } from "react-router-dom";
+import { HiUserCircle } from "react-icons/hi";
+
+import { Link, useNavigate } from "react-router-dom";
+
+import NavBarButton from "../NavBarButton/NavBarButton";
 
 function NavBar() {
+    const navigate = useNavigate();
+
     const [isDropdownOpen, toggleDropdown] = useState(false);
 
     return (
-        <nav className="bg-gray-800">
+        <nav className="bg-gray-800 w-full sticky-top">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex items-center justify-between h-16">
                     <div className="flex items-center">
@@ -16,39 +22,111 @@ function NavBar() {
                             <span className="text-2xl text-white">SociApp</span>
                         </div>
                         <div className="hidden md:block">
-                            <div className="ml-10 flex items-baseline space-x-4">
-                                <span
-                                    className=" hover:bg-gray-700 text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Dashboard
-                                </span>
+                            <div className="ml-10 flex items-center space-x-4">
+                                <NavBarButton
+                                    isSmallScreen={false}
+                                    location="home"
+                                    text="Home"
+                                />
 
-                                <span
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Team
-                                </span>
+                                {localStorage.getItem("email") !== null && (
+                                        <>
+                                            <NavBarButton
+                                                isSmallScreen={false}
+                                                location="newpost"
+                                                text="New post"
+                                            />
+                                        </>
+                                    )}
 
-                                <span
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Projects
-                                </span>
+                                {localStorage.getItem("role") !== null &&
+                                    localStorage.getItem("role") ===
+                                        "Administrator" && (
+                                        <>
+                                            <NavBarButton
+                                                isSmallScreen={false}
+                                                location="reports"
+                                                text="Reports"
+                                            />
+                                        </>
+                                    )}
 
-                                <span
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Calendar
+                                <span className="items-center float-right">
+                                    <div className="flex justify-center">
+                                        <div>
+                                            <div className="dropdown relative">
+                                                <button
+                                                    className="dropdown-toggle px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-200 hover:shadow-lg hover:text-blue-700 transition duration-150 ease-in-out flex items-center whitespace-nowrap"
+                                                    type="button"
+                                                    id="dropdownMenuButton1"
+                                                    data-bs-toggle="dropdown"
+                                                    aria-expanded="false"
+                                                >
+                                                    <HiUserCircle size={30} />
+                                                </button>
+                                                <ul
+                                                    className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
+                                                    aria-labelledby="dropdownMenuButton1"
+                                                >
+                                                    {localStorage.getItem(
+                                                        "token"
+                                                    ) !== null ? (
+                                                        <>
+                                                            <li>
+                                                                <Link
+                                                                    className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                                    to="/profile"
+                                                                >
+                                                                    Profile
+                                                                </Link>
+                                                            </li>
+                                                            <li>
+                                                                <button
+                                                                    className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                                    onClick={() => {
+                                                                        localStorage.removeItem(
+                                                                            "token"
+                                                                        );
+                                                                        localStorage.removeItem(
+                                                                            "role"
+                                                                        );
+                                                                        localStorage.removeItem(
+                                                                            "email"
+                                                                        );
+                                                                        navigate(
+                                                                            "/login"
+                                                                        );
+                                                                    }}
+                                                                >
+                                                                    Logout
+                                                                </button>
+                                                            </li>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <li>
+                                                                <Link
+                                                                    className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                                    to="/login"
+                                                                >
+                                                                    Login
+                                                                </Link>
+                                                            </li>
+                                                            <li>
+                                                                <Link
+                                                                    className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                                    to="/register"
+                                                                >
+                                                                    Register
+                                                                </Link>
+                                                            </li>
+                                                        </>
+                                                    )}
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </span>
-
-                                <span
-                                    className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-                                >
-                                    Reports
-                                </span>
-
-                                <Link to="/login" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Login</Link>
-                                <Link to="/register" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Register</Link>
                             </div>
                         </div>
                     </div>
@@ -114,34 +192,69 @@ function NavBar() {
                             ref={ref}
                             className="px-2 pt-2 pb-3 space-y-1 sm:px-3"
                         >
-                            <span
-                                className="hover:bg-gray-700 text-white block px-3 py-2 rounded-md text-base font-medium"
-                            >
-                                Dashboard
-                            </span>
+                            <NavBarButton
+                                isSmallScreen={true}
+                                location="home"
+                                text="Home"
+                            />
 
-                            <span
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                            >
-                                Team
-                            </span>
+                            {localStorage.getItem("email") !== null && (
+                                <>
+                                    <NavBarButton
+                                        isSmallScreen={true}
+                                        location="newpost"
+                                        text="New post"
+                                    />
+                                </>
+                            )}
 
-                            <span
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                            >
-                                Projects
-                            </span>
+                            {localStorage.getItem("role") !== null &&
+                                localStorage.getItem("role") ===
+                                    "Administrator" && (
+                                    <NavBarButton
+                                        isSmallScreen={true}
+                                        location="reports"
+                                        text="Reports"
+                                    />
+                                )}
 
-                            <span
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                            >
-                                Calendar
-                            </span>
-
-                            <span
-                                className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                            >
-                                Reports
+                            <span className="items-center">
+                                <div className="flex justify-center">
+                                    <div>
+                                        <div className="dropdown relative">
+                                            <button
+                                                className="dropdown-toggle px-6 py-2.5 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-gray-200 hover:shadow-lg hover:text-blue-700 transition duration-150 ease-in-out flex items-center whitespace-nowrap"
+                                                type="button"
+                                                id="dropdownMenuButton1"
+                                                data-bs-toggle="dropdown"
+                                                aria-expanded="false"
+                                            >
+                                                <HiUserCircle size={30} />
+                                            </button>
+                                            <ul
+                                                className="dropdown-menu min-w-max absolute hidden bg-white text-base z-50 float-left py-2 list-none text-left rounded-lg shadow-lg mt-1 m-0 bg-clip-padding border-none"
+                                                aria-labelledby="dropdownMenuButton1"
+                                            >
+                                                <li>
+                                                    <Link
+                                                        className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                        to="/login"
+                                                    >
+                                                        Login
+                                                    </Link>
+                                                </li>
+                                                <li>
+                                                    <Link
+                                                        className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
+                                                        to="/register"
+                                                    >
+                                                        Register
+                                                    </Link>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
                             </span>
                         </div>
                     </div>

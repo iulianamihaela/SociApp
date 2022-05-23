@@ -1,12 +1,11 @@
 const userdb = require('../../db/userdb.js');
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 
 const getUser = ((req, res) => {
     res.status(200);
 
-    userdb.GetUserProfile(req.query.id);
-
-    res.send('Get user route');
+    userdb.GetUserProfile(req.query.email).then(data => res.status(200).json(data));
 });
 
 const createUser = (async (req, res) => {
@@ -37,13 +36,66 @@ const createUser = (async (req, res) => {
     }
 });
 
-const updateUser = ((req, res) => {
-    res.status(200);
-    res.send('Update user route');
+const authenticateUser = (async (req, res) => {
+    if (req.body.password != null && req.body.password.length < 8) {
+        return;
+    }
+
+    const email = req.body.email;
+    
+    const user = await userdb.GetHashedPasswordForUser(
+        email
+    );
+
+    const validAuth = bcrypt.compareSync(req.body.password, user.Password);
+
+    const token = jwt.sign({ email: email, role: user.Role }, process.env.TOKEN_SECRET, { expiresIn: "1800s" });
+
+    if (validAuth) {
+        res.status(200);
+        res.json({
+            "status": "success",
+            "jwt": token,
+            "role": user.Role,
+            "email": email
+        });
+    } else {
+        res.status(404);
+        res.json({
+            'status': 'error'
+        });
+    }
+});
+
+const updateUser = (async (req, res) => {
+    if (req.body.id === null) {
+        return;
+    }
+    
+    const user = await userdb.UpdateUserProfile(
+        req.body.id,
+        req.body.description,
+        req.body.location
+    );
+    
+    try {
+        res.status(200);
+        res.json({
+            "status": "success",
+            "location": user.Location,
+            "description": user.Description
+        });
+    } catch {
+        res.status(404);
+        res.json({
+            'status': 'error'
+        });
+    }
 });
 
 module.exports = {
     getUser,
     createUser,
-    updateUser
+    updateUser,
+    authenticateUser
 };

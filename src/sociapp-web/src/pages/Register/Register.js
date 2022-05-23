@@ -9,8 +9,11 @@ import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { TimePicker } from '@mui/x-date-pickers/TimePicker';
 import { DesktopDatePicker } from '@mui/x-date-pickers/DesktopDatePicker';
+import { useNavigate } from "react-router-dom";
 
 function Register() {
+    const navigate = useNavigate();
+    
     const [firstName, setFirstName] = useState('');
     const [isValidFirstName, setIsValidFirstName] = useState(false);
 
@@ -100,12 +103,13 @@ function Register() {
             "lastName": lastName,
             "birthDate": birthDate
         }).then(res => {
-            console.log(res);
             setFirstName('');
             setLastName('');
             setPassword('');
             setPassword2('');
             setEmail('');
+
+            navigate('../login', { replace: true })
         });
     }
 

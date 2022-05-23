@@ -4,10 +4,14 @@ const GetUserProfile = async (userId) => {
     await pool.connect();
 
     const result = await pool.request()
-        .input('Id', userId)
+        .input('Email', userId)
         .execute('GetUserProfile')
-    
-    return result.recordset;
+
+    if (result.recordset.length == 1) {
+        return result.recordset[0];
+    }
+
+    return null;
 }
 
 const CreateUser = async (email, password, firstName, lastName, birthDate) => {
@@ -21,10 +25,42 @@ const CreateUser = async (email, password, firstName, lastName, birthDate) => {
         .input('BirthDate', birthDate)
         .execute('CreateUser')
     
-    return (result.rowsAffected === null || result.rowsAffected.length === 0) ? 0 : result.rowsAffected[0] ;
+    return (result.rowsAffected === null || result.rowsAffected.length === 0) ? 0 : result.rowsAffected[0];
+}
+
+const GetHashedPasswordForUser = async (email) => {
+    await pool.connect();
+
+    const result = await pool.request()
+        .input('Email', email)
+        .execute('GetHashedPasswordForUser');
+    
+    if (result.recordset.length == 1) {
+        return result.recordset[0];
+    }
+
+    return null;
+}
+
+const UpdateUserProfile = async (id, description, location) => {
+    await pool.connect();
+    
+    const result = await pool.request()
+        .input('Id', id)
+        .input('Description', description)
+        .input('Location', location)
+        .execute('UpdateUserProfile');
+    
+    if (result.recordset.length == 1) {
+        return result.recordset[0];
+    }
+
+    return null;
 }
 
 module.exports = {
     GetUserProfile,
-    CreateUser
+    CreateUser,
+    GetHashedPasswordForUser,
+    UpdateUserProfile
 }

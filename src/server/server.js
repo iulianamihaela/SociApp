@@ -8,6 +8,8 @@ const cors = require('cors');
 require('dotenv').config();
 
 const userRoutes = require('./routes/user.js');
+const postRoutes = require('./routes/post.js');
+const reactionRoutes = require('./routes/reaction.js');
 
 const app = express();
 
@@ -26,6 +28,8 @@ app.get('/', async (req, res) => {
 });
 
 app.use('/api/user', userRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/reaction', reactionRoutes);
 
 app.listen(8080, () => {
     console.log('Server started...');
