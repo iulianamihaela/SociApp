@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const getUser = ((req, res) => {
     res.status(200);
 
-    userdb.GetUserProfile(req.query.email).then(data => res.status(200).json(data));
+    userdb.GetUserProfile(req.query.email, req.query.visitoremail).then(data => res.status(200).json(data));
 });
 
 const createUser = (async (req, res) => {
@@ -93,9 +93,18 @@ const updateUser = (async (req, res) => {
     }
 });
 
+const searchUsers = ((req, res) => {
+    if (req.query.filter === null) {
+        return [];
+    }
+
+    userdb.SearchUsers(req.query.filter).then(data => res.status(200).json(data));
+});
+
 module.exports = {
     getUser,
     createUser,
     updateUser,
-    authenticateUser
+    authenticateUser,
+    searchUsers
 };

@@ -9,14 +9,17 @@ import Layout from './pages/Layout/Layout';
 import Login from './pages/Login/Login';
 import Register from './pages/Register/Register';
 import Profile from './pages/Profile/Profile';
+import UserProfile from './pages/UserProfile/UserProfile';
 import Home from './pages/Home/Home';
+import Users from './pages/Users/Users';
+import Post from './pages/Post/Post';
 
 import 'tw-elements';
 import NewPost from './pages/NewPost/NewPost';
+import FriendRequests from './pages/FriendRequests/FriendRequests';
 
 const container = document.getElementById('root');
 const root = createRoot(container);
-// const history = syncHistoryWithStore(createBrowserHistory, store)
 
 root.render(
   <Provider store={store}>
@@ -28,9 +31,10 @@ root.render(
           <Route path="profile" element={<Profile />} />
           <Route path="newpost" element={<NewPost />} />
           <Route path="home" element={<Home />} />
-          {/* <Route path="blogs" element={<Blogs />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="*" element={<NoPage />} /> */}
+          <Route path="users" element={<Users />} />
+          <Route path="userprofile/:userEmail" element={<UserProfile />} />
+          <Route path="friendrequests" element={<FriendRequests />} />
+          <Route path="post/:id" element={<Post />} />
         </Route>
       </Routes>
     </BrowserRouter>

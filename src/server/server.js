@@ -10,6 +10,8 @@ require('dotenv').config();
 const userRoutes = require('./routes/user.js');
 const postRoutes = require('./routes/post.js');
 const reactionRoutes = require('./routes/reaction.js');
+const friendConnectionRoutes = require('./routes/friendconnection.js');
+const commentRoutes = require('./routes/comment.js');
 
 const app = express();
 
@@ -30,6 +32,8 @@ app.get('/', async (req, res) => {
 app.use('/api/user', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/reaction', reactionRoutes);
+app.use('/api/friendconnection', friendConnectionRoutes);
+app.use('/api/comment', commentRoutes);
 
 app.listen(8080, () => {
     console.log('Server started...');

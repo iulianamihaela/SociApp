@@ -28,7 +28,7 @@ function Profile() {
 
     useEffect(() => {
         axios.get(`http://127.0.0.1:8080/api/post?email=${localStorage.getItem("email")}&userProfile=`)
-            .then((res) => {setPosts(res.data); console.log(res)});
+            .then((res) => {setPosts(res.data);});
     }, []);
 
     return (
@@ -39,7 +39,7 @@ function Profile() {
                 </h1>
                 <br />
                 {
-                    posts.map(post => <><PostCard postId={post.Id} imageURI={post.ImageURI} text={post.Text} react={post.Reaction} /><br/></>)
+                    posts.map((post, idx) => <><PostCard key={`post-${idx}`} postId={post.Id} imageURI={post.ImageURI} text={post.Text} react={post.Reaction} /><br/></>)
                 }
             </div>
         </div>

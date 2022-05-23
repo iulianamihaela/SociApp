@@ -36,6 +36,16 @@ function NavBar() {
                                                 location="newpost"
                                                 text="New post"
                                             />
+                                            <NavBarButton
+                                                isSmallScreen={false}
+                                                location="users"
+                                                text="Users"
+                                            />
+                                            <NavBarButton
+                                                isSmallScreen={false}
+                                                location="friendrequests"
+                                                text="Friend requests"
+                                            />
                                         </>
                                     )}
 
@@ -75,7 +85,7 @@ function NavBar() {
                                                             <li>
                                                                 <Link
                                                                     className="dropdown-item text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-gray-700 hover:bg-gray-100"
-                                                                    to="/profile"
+                                                                    to="profile"
                                                                 >
                                                                     Profile
                                                                 </Link>
@@ -204,6 +214,16 @@ function NavBar() {
                                         isSmallScreen={true}
                                         location="newpost"
                                         text="New post"
+                                    />
+                                    <NavBarButton
+                                        isSmallScreen={true}
+                                        location="users"
+                                        text="Users"
+                                    />
+                                    <NavBarButton
+                                        isSmallScreen={true}
+                                        location="friendrequests"
+                                        text="Friend requests"
                                     />
                                 </>
                             )}

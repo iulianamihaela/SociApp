@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Profile.css";
+import "./UserProfile.css";
 import { Transition } from "@headlessui/react";
 
 import PostCard from '../../components/PostCard/PostCard';
@@ -23,7 +23,9 @@ const monthNames = [
     "December",
 ];
 
-function Profile() {
+function UserProfile() {
+    let {userEmail} = useParams();
+
     const [id, setId] = useState(-1);
     const [birthDate, setBirthDate] = useState(new Date());
     const [email, setEmail] = useState("");
@@ -32,15 +34,18 @@ function Profile() {
     const [role, setRole] = useState("");
     const [location, setLocation] = useState("");
     const [description, setDescription] = useState("");
+    const [isFriend, setIsFriend] = useState(false);
+    const [existsFriendRequest, setExistsFriendRequest] = useState(false);
 
     const [posts, setPosts] = useState([]);
 
     useEffect(() => {
+        if (userEmail === undefined) 
+            userEmail = localStorage.getItem('email')
+
         axios
             .get(
-                `http://127.0.0.1:8080/api/user?email=${localStorage.getItem(
-                    "email"
-                )}`
+                `http://127.0.0.1:8080/api/user?email=${userEmail}&visitoremail=${localStorage.getItem('email')}`
             )
             .then((res) => {
                 setId(res.data.Id);
@@ -51,31 +56,43 @@ function Profile() {
                 setRole(res.data.Role);
                 setLocation(res.data.Location);
                 setDescription(res.data.Description);
+                setIsFriend(res.data.IsFriend);
+                setExistsFriendRequest(res.data.ExistsFriendRequest)
             })
-            .then((res) => axios.get(`http://127.0.0.1:8080/api/post/user?email=${localStorage.getItem("email")}&userProfile=${localStorage.getItem("email")}`))
+            .then((res) => axios.get(`http://127.0.0.1:8080/api/post/user?email=${localStorage.getItem("email")}&userProfile=${userEmail}`))
             .then((res) => setPosts(res.data));
     }, []);
 
-    const updateProfile = async () => {
+    const sendFriendRequest = async () => {
         axios
-            .put("http://127.0.0.1:8080/api/user", {
-                id: id,
-                location: location,
-                description: description,
-            })
-            .then((res) => {
-                setLocation(res.data.location);
-                setDescription(res.data.description);
-            });
+            .post("http://127.0.0.1:8080/api/friendconnection", {
+                firstEmail: localStorage.getItem("email"),
+                secondEmail: userEmail
+            }).then(() => setExistsFriendRequest(true));
     };
 
     return (
         <div className="text-black flex flex-row flex-wrap">
-            <div className="w-full flex flex-col md:fixed sm:w-12/12 md:w-4/12 min-h-full sm:border-b-2 md:border-r-2 border-gray-200">
+            <div className="w-full flex flex-col md:fixed sm:w-12/12 md:w-4/12 min-h-full md:border-r-2 border-gray-200">
                 <h1 className="flex justify-center mt-4 text-3xl font-bold">
                     Profile
                 </h1>
-                <br />
+                {
+                    (localStorage.getItem('email') !== null) && (isFriend ?
+                    <div className="flex bg-green-200 max-w-xs mx-auto p-2 mt-2 rounded-lg hover:bg-green-400 hover:cursor-pointer">
+                        Your friend
+                    </div>
+                    :
+                    (existsFriendRequest ? 
+                    <div className="flex bg-green-200 max-w-xs mx-auto p-2 mt-2 rounded-lg hover:cursor-default">
+                        Friend request sent
+                    </div>    
+                        :
+                    <div className="flex bg-green-200 max-w-xs mx-auto p-2 mt-2 rounded-lg hover:cursor-pointer" onClick={sendFriendRequest}>
+                        Send friend request
+                    </div>))
+                }
+                <br/>
                 <div className="flex justify-center">
                     <div className="xl:w-96">
                         <label
@@ -186,6 +203,7 @@ function Profile() {
                             onChange={(e) => setLocation(e.target.value)}
                             value={location}
                             placeholder={"Location"}
+                            readOnly={true}
                         ></textarea>
                     </div>
                 </div>
@@ -204,18 +222,9 @@ function Profile() {
                             onChange={(e) => setDescription(e.target.value)}
                             rows="3"
                             placeholder={"Description"}
+                            readOnly={true}
                         ></textarea>
                     </div>
-                </div>
-
-                <div className="flex space-x-2 mb-4 justify-center">
-                    <button
-                        type="button"
-                        onClick={updateProfile}
-                        className="inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-                    >
-                        Update profile
-                    </button>
                 </div>
             </div>
             <div className="w-full flex flex-col sm:w-12/12 md:w-8/12 md:ml-[33%]">
@@ -231,4 +240,4 @@ function Profile() {
     );
 }
 
-export default Profile;
+export default UserProfile;

@@ -1,10 +1,11 @@
 const { mssql, pool } = require('./db.js');
 
-const GetUserProfile = async (userId) => {
+const GetUserProfile = async (userId, visitorEmail) => {
     await pool.connect();
 
     const result = await pool.request()
         .input('Email', userId)
+        .input('VisitorEmail', visitorEmail)
         .execute('GetUserProfile')
 
     if (result.recordset.length == 1) {
@@ -58,9 +59,20 @@ const UpdateUserProfile = async (id, description, location) => {
     return null;
 }
 
+const SearchUsers = async (filter) => {
+    await pool.connect();
+    
+    const result = await pool.request()
+        .input('Filter', filter)
+        .execute('SearchUsers');
+
+    return result.recordset;
+}
+
 module.exports = {
     GetUserProfile,
     CreateUser,
     GetHashedPasswordForUser,
-    UpdateUserProfile
+    UpdateUserProfile,
+    SearchUsers
 }

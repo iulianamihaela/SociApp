@@ -4,10 +4,12 @@ const {
     getUser,
     createUser,
     updateUser,
-    authenticateUser
+    authenticateUser,
+    searchUsers
 } = require('./controllers/user.js');
 
 router.get('/', getUser);
+router.get('/search', searchUsers);
 router.post('/', createUser);
 router.put('/', updateUser);
 

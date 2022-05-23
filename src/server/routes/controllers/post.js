@@ -12,7 +12,12 @@ const getPostsForUser = ((req, res) => {
     postdb.GetPostsForUser(req.query.email, req.query.userProfile).then(data => res.status(200).json(data));
 });
 
+const getPost = ((req, res) => {
+    postdb.GetPost(req.query.postId, req.query.email).then(data => res.status(200).json(data));
+});
+
 module.exports = {
     addPost,
-    getPostsForUser
+    getPostsForUser,
+    getPost
 };
